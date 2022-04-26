@@ -14,12 +14,12 @@ import {
 } from "@ionic/react";
 import { FormEvent, useState } from "react";
 import { API } from "../api";
-import { AuthContext, useAuth } from "../hooks/useAuth";
-import "./Login.css";
+import { useAuth } from "../hooks/useAuth";
+import styles from "./Login.module.css";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState<string | any>("");
-  const [password, setPassword] = useState<string | any>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [present] = useIonToast();
   const { push } = useIonRouter();
@@ -33,7 +33,6 @@ const Login: React.FC = () => {
       if (user) {
         setUser(user);
         push("careers");
-        console.log("PUSHED");
       } else {
         present({ message: "Username or password is wrong", duration: 1000 });
       }
@@ -54,21 +53,21 @@ const Login: React.FC = () => {
       <IonContent className="ion-padding">
         <h3>Welcome back!</h3>
         <form onSubmit={onSubmit}>
-          <IonItem>
+          <IonItem className={styles.input}>
             <IonLabel position="floating">Username</IonLabel>
             <IonInput
               required
               value={username}
-              onInput={(e) => setUsername(e.currentTarget.value)}
+              onIonChange={(e) => setUsername(e.detail.value!)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem className={styles.input}>
             <IonLabel position="floating">Password</IonLabel>
             <IonInput
               required
               value={password}
               type="password"
-              onInput={(e) => setPassword(e.currentTarget.value)}
+              onIonChange={(e) => setPassword(e.detail.value!)}
             />
           </IonItem>
           <IonButton className="ion-margin" type="submit">

@@ -17,12 +17,12 @@ import {
 import { FormEvent, useState } from "react";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
-import "./Register.css";
+import styles from "./Register.module.css";
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState<string | any>("");
-  const [password, setPassword] = useState<string | any>("");
-  const [name, setName] = useState<string | any>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const [present] = useIonToast();
   const { push } = useIonRouter();
@@ -50,7 +50,7 @@ const Register: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/login" />
+            <IonBackButton />
           </IonButtons>
           <IonTitle>Create account</IonTitle>
         </IonToolbar>
@@ -58,29 +58,29 @@ const Register: React.FC = () => {
       <IonContent className="ion-padding">
         <h3>Welcome back!</h3>
         <form onSubmit={onSubmit}>
-          <IonItem>
+          <IonItem className={styles.input}>
             <IonLabel position="floating">Full Name</IonLabel>
             <IonInput
               required
               value={name}
-              onInput={(e) => setName(e.currentTarget.value)}
+              onIonChange={(e) => setName(e.detail.value!)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem className={styles.input}>
             <IonLabel position="floating">Username</IonLabel>
             <IonInput
               required
               value={username}
-              onInput={(e) => setUsername(e.currentTarget.value)}
+              onIonChange={(e) => setUsername(e.detail.value!)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem className={styles.input}>
             <IonLabel position="floating">Password</IonLabel>
             <IonInput
               required
               value={password}
               type="password"
-              onInput={(e) => setPassword(e.currentTarget.value)}
+              onIonChange={(e) => setPassword(e.detail.value!)}
             />
           </IonItem>
           <IonButton className="ion-margin" type="submit">
