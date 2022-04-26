@@ -1,0 +1,7 @@
+{
+  "name": "alraeda-assessment",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
