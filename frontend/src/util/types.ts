@@ -5,3 +5,12 @@ export type User = {
   password: string;
   isAdmin: boolean;
 };
+
+export type Career = {
+  id: number;
+  title: string;
+  subTitle: string;
+  body: string;
+  skills: string[];
+  city: string;
+};

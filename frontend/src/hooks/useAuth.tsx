@@ -7,7 +7,7 @@ import {
 } from "react";
 import { User } from "../util/types";
 
-export type AuthContext = {
+type AuthContext = {
   user: User | null;
   setUser: Dispatch<React.SetStateAction<User | null>>;
 };
