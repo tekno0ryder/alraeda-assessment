@@ -54,7 +54,7 @@ const Careers: React.FC = () => {
         {/* Careers List */}
         <IonList>
           {careers?.map((career) => (
-            <CareerItem career={career} />
+            <CareerItem key={career.id} career={career} />
           ))}
         </IonList>
       </IonContent>

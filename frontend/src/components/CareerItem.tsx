@@ -10,10 +10,7 @@ const CareerItem: React.FC<Props> = ({ career }) => {
   const router = useIonRouter();
 
   return (
-    <IonItem
-      key={career.id}
-      routerLink={`${router.routeInfo.pathname}/${career.id}`}
-    >
+    <IonItem routerLink={`${router.routeInfo.pathname}/${career.id}`}>
       <div>
         <h4>{career.title}</h4>
         <div>
