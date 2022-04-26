@@ -1,11 +1,10 @@
-import { Career } from "../util/types";
+import { Career, CareersFiltersType } from "../util/types";
 
 export const URL = process.env.REACT_APP_API_URL;
 
-export const fetchCareerList = async (search?: {
-  title?: string;
-  city?: string;
-}): Promise<Career[]> => {
+export const fetchCareerList = async (
+  search?: CareersFiltersType
+): Promise<Career[]> => {
   const searchParams = new URLSearchParams();
   if (search?.title) {
     searchParams.append("title_like", search.title);

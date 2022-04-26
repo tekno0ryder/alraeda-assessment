@@ -14,3 +14,8 @@ export type Career = {
   skills: string[];
   city: string;
 };
+
+export type CareersFiltersType = {
+  title?: string;
+  city?: string;
+};
