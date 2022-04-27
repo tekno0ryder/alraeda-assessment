@@ -5,24 +5,16 @@ import {
   IonChip,
   IonContent,
   IonHeader,
-  IonIcon,
-  IonItem,
   IonItemDivider,
-  IonLoading,
-  IonNote,
   IonPage,
   IonTitle,
   IonToolbar,
-  useIonLoading,
-  useIonRouter,
   useIonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
-import { locationOutline } from "ionicons/icons";
 import { useState } from "react";
 import { useParams } from "react-router";
 import { API } from "../api";
-import careers from "../api/careers";
 import CareerItemContent from "../components/CareerItemContent";
 import { Career } from "../util/types";
 
