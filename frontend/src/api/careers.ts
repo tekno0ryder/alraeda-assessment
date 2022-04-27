@@ -18,3 +18,14 @@ export const fetchCareerList = async (
 
   return json;
 };
+
+export const fetchCareerById = async (id: string): Promise<Career> => {
+  const searchParams = new URLSearchParams({ id });
+
+  const response = await fetch(`${URL}/careers?${searchParams}`);
+  const json = await response.json();
+
+  return json[0];
+};
+
+export default { fetchCareerList, fetchCareerById };

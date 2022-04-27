@@ -1,8 +1,7 @@
-import { login, register } from "./auth";
-import { fetchCareerList } from "./careers";
+import auth from "./auth";
+import careers from "./careers";
 
 export const API = {
-  login,
-  register,
-  fetchCareerList,
+  ...auth,
+  ...careers,
 };

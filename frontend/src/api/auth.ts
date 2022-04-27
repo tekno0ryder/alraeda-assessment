@@ -2,10 +2,7 @@ import { User } from "../util/types";
 
 const URL = process.env.REACT_APP_API_URL;
 
-export const login = async (
-  username: string,
-  password: string
-): Promise<User> => {
+const login = async (username: string, password: string): Promise<User> => {
   const searchParams = new URLSearchParams({ username, password });
 
   const response = await fetch(`${URL}/users?${searchParams}`);
@@ -14,7 +11,7 @@ export const login = async (
   return json[0];
 };
 
-export const register = async (
+const register = async (
   username: string,
   password: string,
   userInfo: {
@@ -45,3 +42,5 @@ export const register = async (
 
   return registerJson;
 };
+
+export default { login, register };

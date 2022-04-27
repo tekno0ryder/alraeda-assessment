@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonItem,
   IonList,
   IonPage,
   IonTitle,
@@ -16,10 +17,11 @@ import { API } from "../api";
 import { Career, CareersFiltersType } from "../util/types";
 import "./Careers.css";
 import CareersSearch from "../components/CareersSearch";
-import CareerItem from "../components/CareerItem";
+import CareerItemContent from "../components/CareerItemContent";
 
 const Careers: React.FC = () => {
   const [careers, setCareers] = useState<Career[]>();
+
   const router = useIonRouter();
   const [presentToast] = useIonToast();
 
@@ -54,7 +56,12 @@ const Careers: React.FC = () => {
         {/* Careers List */}
         <IonList>
           {careers?.map((career) => (
-            <CareerItem key={career.id} career={career} />
+            <IonItem
+              key={career.id}
+              routerLink={`${router.routeInfo.pathname}/${career.id}`}
+            >
+              <CareerItemContent career={career} />
+            </IonItem>
           ))}
         </IonList>
       </IonContent>
