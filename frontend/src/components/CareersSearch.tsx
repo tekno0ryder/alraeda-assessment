@@ -24,8 +24,7 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
 
   const [presentActionSheet] = useIonActionSheet();
 
-  // Extract cityList to be used in ActionSheet
-  // Consider making an API to return the list
+  // Consider making an API to return city list
   // since this assumes first careers object is full (no pagination) and not already filtered elsewhere
   useEffect(() => {
     if (!cityList && careers) {
@@ -36,9 +35,16 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
     }
   }, [careers, cityList]);
 
-  useEffect(() => {
-    onFiltersChange({ title: titleSearch, city: selectedCity });
-  }, [titleSearch, selectedCity]);
+  const onTitleSearch = (e: CustomEvent) => {
+    const newTitle = e.detail.value!;
+    setTitleSearch(newTitle);
+    onFiltersChange({ title: newTitle, city: selectedCity });
+  };
+
+  const onCitySearch = (newCity: string) => {
+    setSelectedCity(newCity);
+    onFiltersChange({ title: titleSearch, city: newCity });
+  };
 
   // Used to show list of cities
   const showActionSheet = () => {
@@ -46,7 +52,7 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
       {
         text: "All",
         role: selectedCity ? undefined : "selected",
-        handler: () => setSelectedCity(""),
+        handler: () => onCitySearch(""),
       },
       { text: "Cancel", role: "cancel" },
     ];
@@ -55,7 +61,7 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
       options.push({
         text: city,
         role: city === selectedCity ? "selected" : undefined,
-        handler: () => setSelectedCity(city),
+        handler: () => onCitySearch(city),
       });
     });
 
@@ -70,7 +76,7 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
             animated
             placeholder="Search title..."
             value={titleSearch}
-            onIonChange={(e) => setTitleSearch(e.detail.value!)}
+            onIonChange={onTitleSearch}
           />
         </IonCol>
         <IonCol size="1">
