@@ -45,19 +45,11 @@ const ApplicationModal: React.FC<Props> = ({
   }, []);
 
   const onSubmit = async () => {
-    let errors = "";
-    if (!user) {
-      errors += "Sign in first";
-    }
-    if (!resume) {
-      errors += "Resume is required";
-    }
-
-    if (errors) {
-      return presentToast({ message: errors, duration: 1000 });
-    }
-
     try {
+      if (!resume) {
+        throw Error("Resume is required");
+      }
+
       const response = await API.submitApplication({
         userId: user?.id!,
         careerId: career.id,
@@ -69,8 +61,8 @@ const ApplicationModal: React.FC<Props> = ({
         onDismiss();
       }
     } catch (error) {
-      if (typeof error === "string") {
-        presentToast({ message: error, duration: 1000 });
+      if (error instanceof Error) {
+        presentToast({ message: error.message, duration: 1000 });
       }
     }
   };

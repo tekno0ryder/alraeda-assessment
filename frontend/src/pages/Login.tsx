@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [present] = useIonToast();
+  const [presentToast] = useIonToast();
   const { push } = useIonRouter();
   const { setUser } = useAuth();
 
@@ -33,12 +33,10 @@ const Login: React.FC = () => {
       if (user) {
         setUser(user);
         push("careers");
-      } else {
-        present({ message: "Username or password is wrong", duration: 1000 });
       }
     } catch (error) {
-      if (typeof error === "string") {
-        present({ message: error, duration: 1000 });
+      if (error instanceof Error) {
+        presentToast({ message: error.message, duration: 1000 });
       }
     }
   };

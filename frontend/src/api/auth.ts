@@ -8,7 +8,13 @@ const login = async (username: string, password: string): Promise<User> => {
   const response = await fetch(`${URL}/users?${searchParams}`);
   const json = await response.json();
 
-  return json[0];
+  const user = json[0];
+
+  if (!user) {
+    throw new Error("Username or password is wrong");
+  }
+
+  return user;
 };
 
 const register = async (

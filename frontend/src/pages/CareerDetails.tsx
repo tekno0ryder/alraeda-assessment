@@ -40,8 +40,8 @@ const CareerDetails: React.FC = () => {
       const application = await API.fetchApplication(user?.id!, id);
       setHasApplication(application!!);
     } catch (error) {
-      if (typeof error === "string") {
-        presentToast({ message: error, duration: 1000 });
+      if (error instanceof Error) {
+        presentToast({ message: error.message, duration: 1000 });
       }
     }
   }, [user, id]);
