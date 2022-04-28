@@ -1,17 +1,18 @@
 // Hook (use-require-auth.js)
-import { useIonRouter } from "@ionic/react";
 import { useEffect } from "react";
+import { useHistory, useLocation } from "react-router";
 import { useAuth } from "./useAuth";
 
 export function useRequireAuth(redirectUrl = "/login") {
   const auth = useAuth();
-  const router = useIonRouter();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     if (!auth.user) {
-      router.push(redirectUrl);
+      history.replace(redirectUrl);
     }
-  }, [auth]);
+  }, [auth, history, location, redirectUrl]);
 
   // Convert to boolean
   return !!auth.user;
