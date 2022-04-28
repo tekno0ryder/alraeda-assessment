@@ -39,7 +39,7 @@ const App: React.FC = () => (
             <Redirect to={ROUTES.login} />
           </Route>
           <Route path={ROUTES.login} exact component={Login} />
-          <Route path={ROUTES.regiser} exact component={Register} />
+          <Route path={ROUTES.register} exact component={Register} />
           <Route path={ROUTES.careers} exact component={Careers} />
           <Route path={ROUTES.careerDetails} exact component={CareerDetails} />
           <Route path={ROUTES.admin} component={Admin} />

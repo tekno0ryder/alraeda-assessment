@@ -6,7 +6,7 @@ export const CITY_LIST = ["Dammam", "Riyadh"];
 
 export const ROUTES = {
   login: "/login",
-  regiser: "/register",
+  register: "/register",
   careers: "/careers",
   careerDetails: "/careers/:id",
   admin: "/admin",

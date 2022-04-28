@@ -75,7 +75,7 @@ const Login: React.FC = () => {
         </form>
         <div className="ion-margin">
           <span>Don't have an account? </span>
-          <IonRouterLink routerLink={ROUTES.regiser}>Sign up</IonRouterLink>
+          <IonRouterLink routerLink={ROUTES.register}>Sign up</IonRouterLink>
         </div>
       </IonContent>
     </IonPage>
