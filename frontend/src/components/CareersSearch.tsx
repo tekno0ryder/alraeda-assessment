@@ -8,7 +8,8 @@ import {
   useIonActionSheet,
 } from "@ionic/react";
 import { filter } from "ionicons/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { CITY_LIST } from "../util/constants";
 import { Career, CareersFiltersType } from "../util/types";
 
 type Props = {
@@ -17,23 +18,10 @@ type Props = {
 };
 
 const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
-  const [cityList, setCityList] = useState<string[]>();
-
   const [titleSearch, setTitleSearch] = useState<string>();
   const [selectedCity, setSelectedCity] = useState<string>();
 
   const [presentActionSheet] = useIonActionSheet();
-
-  // Consider making an API to return city list
-  // since this assumes first careers object is full (no pagination) and not already filtered elsewhere
-  useEffect(() => {
-    if (!cityList && careers) {
-      const cityList = new Set<string>();
-      careers.forEach((career) => cityList.add(career.city));
-
-      setCityList([...cityList]);
-    }
-  }, [careers, cityList]);
 
   const onTitleSearch = (e: CustomEvent) => {
     const newTitle = e.detail.value!;
@@ -57,7 +45,7 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
       { text: "Cancel", role: "cancel" },
     ];
 
-    cityList?.forEach((city) => {
+    CITY_LIST.forEach((city) => {
       options.push({
         text: city,
         role: city === selectedCity ? "selected" : undefined,
