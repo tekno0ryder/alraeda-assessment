@@ -14,7 +14,7 @@ import {
 import { Application, Base64File, Career } from "../util/types";
 import FileUpload from "./FileUpload";
 import { useState } from "react";
-import FileItem from "./FilesItem";
+import FileItem from "./FileItem";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
 import CreatableSelect from "react-select/creatable";
