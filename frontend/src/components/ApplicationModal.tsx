@@ -19,15 +19,8 @@ import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
 import CreatableSelect from "react-select/creatable";
 import { OnChangeValue } from "react-select";
-import { SKILL_LIST } from "../util/constants";
+import { APPLICATION_STATUS_LIST, SKILL_LIST } from "../util/constants";
 import toasts from "../util/toasts";
-
-type Props = {
-  career: Career;
-  isOpen: boolean;
-  onDismiss: (hasApplication?: boolean) => void;
-  application?: Application;
-};
 
 type SkillOption = {
   label: string;
@@ -38,6 +31,13 @@ const skillOptions = SKILL_LIST.map<SkillOption>((skill) => ({
   label: skill,
   value: skill,
 }));
+
+type Props = {
+  career: Career;
+  isOpen: boolean;
+  onDismiss: (hasApplication?: boolean) => void;
+  application?: Application;
+};
 
 const ApplicationModal: React.FC<Props> = ({
   isOpen,
@@ -72,6 +72,7 @@ const ApplicationModal: React.FC<Props> = ({
         resume: resume,
         files: files,
         skills: skills,
+        status: APPLICATION_STATUS_LIST.created,
       });
       if (res) {
         presentToast(toasts.success("Applicatoin submitted!"));

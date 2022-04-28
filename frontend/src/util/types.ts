@@ -26,14 +26,19 @@ export type Base64File = {
   content: any;
 };
 
-export type Application = {
-  // Either relation by ID or expanded object
+export type ApplicationRequest = {
   userId: number;
   careerId: number;
   resume: Base64File;
   files: Base64File[];
   skills: string[];
+  status: string;
+};
+
+export type Application = ApplicationRequest & {
+  id: number;
+  status: string;
   // Populated relations from backend
-  user?: User;
-  career?: Career;
+  user: User;
+  career: Career;
 };

@@ -39,7 +39,10 @@ const CareerDetails: React.FC = () => {
       const career = await API.fetchCareerById(id);
       setCareer(career);
 
-      const application = await API.fetchApplication(user?.id!, id);
+      const application = await API.searchApplication({
+        userId: user?.id!,
+        careerId: id,
+      });
       if (application) {
         setHasApplication(true);
       }
@@ -89,9 +92,9 @@ const CareerDetails: React.FC = () => {
             <ApplicationModal
               career={career}
               isOpen={isApplicationModalOpen}
-              onDismiss={(hasApplication) => {
+              onDismiss={(application) => {
                 setIsApplicationModalOpen(false);
-                setHasApplication(hasApplication!!);
+                setHasApplication(application!!);
               }}
             />
           </>

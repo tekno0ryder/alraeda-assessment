@@ -1,4 +1,5 @@
 import {
+  ActionSheetButton,
   IonButton,
   IonCol,
   IonGrid,
@@ -36,7 +37,7 @@ const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
 
   // Used to show list of cities
   const showActionSheet = () => {
-    const options = [
+    const options: ActionSheetButton[] = [
       {
         text: "All",
         role: selectedCity ? undefined : "selected",
