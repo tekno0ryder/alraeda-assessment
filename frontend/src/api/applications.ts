@@ -5,7 +5,7 @@ const URL = process.env.REACT_APP_API_URL;
 const fetchApplication = async (
   userId: number | string,
   careerId: number | string
-) => {
+): Promise<Application> => {
   const searchParams = new URLSearchParams({
     userId: userId.toString(),
     careerId: careerId.toString(),
@@ -18,7 +18,7 @@ const fetchApplication = async (
   return json[0];
 };
 
-const fetchApplications = async () => {
+const fetchApplications = async (): Promise<Application[]> => {
   const searchParams = new URLSearchParams();
   searchParams.append("_expand", "user");
   searchParams.append("_expand", "career");

@@ -20,6 +20,7 @@ import CareersSearch from "../components/CareersSearch";
 import CareerItemContent from "../components/CareerItemContent";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { ROUTES } from "../util/constants";
+import toasts from "../util/toasts";
 
 const Careers: React.FC = () => {
   const [careers, setCareers] = useState<Career[]>();
@@ -38,7 +39,7 @@ const Careers: React.FC = () => {
       setCareers(careers);
     } catch (error) {
       if (error instanceof Error) {
-        presentToast({ message: error.message, duration: 1000 });
+        presentToast(toasts.error(error.message));
       }
     }
   };

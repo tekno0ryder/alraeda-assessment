@@ -20,6 +20,7 @@ import CareerItemContent from "../components/CareerItemContent";
 import { useAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { ROUTES } from "../util/constants";
+import toasts from "../util/toasts";
 import { Career } from "../util/types";
 
 const CareerDetails: React.FC = () => {
@@ -39,10 +40,12 @@ const CareerDetails: React.FC = () => {
       setCareer(career);
 
       const application = await API.fetchApplication(user?.id!, id);
-      setHasApplication(application!!);
+      if (application) {
+        setHasApplication(true);
+      }
     } catch (error) {
       if (error instanceof Error) {
-        presentToast({ message: error.message, duration: 1000 });
+        presentToast(toasts.error(error.message));
       }
     }
   }, [user, id]);

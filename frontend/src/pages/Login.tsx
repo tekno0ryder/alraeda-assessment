@@ -16,6 +16,7 @@ import { FormEvent, useState } from "react";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
 import { ROUTES } from "../util/constants";
+import toasts from "../util/toasts";
 import styles from "./Login.module.css";
 
 const Login: React.FC = () => {
@@ -37,7 +38,7 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        presentToast({ message: error.message, duration: 1000 });
+        presentToast(toasts.error(error.message));
       }
     }
   };

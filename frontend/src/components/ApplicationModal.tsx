@@ -20,6 +20,7 @@ import { useAuth } from "../hooks/useAuth";
 import CreatableSelect from "react-select/creatable";
 import { OnChangeValue } from "react-select";
 import { SKILL_LIST } from "../util/constants";
+import toasts from "../util/toasts";
 
 type Props = {
   career: Career;
@@ -73,12 +74,12 @@ const ApplicationModal: React.FC<Props> = ({
         skills: skills,
       });
       if (res) {
-        presentToast({ message: "Applicatoin submitted!", duration: 1000 });
+        presentToast(toasts.success("Applicatoin submitted!"));
         onDismiss(true);
       }
     } catch (error) {
       if (error instanceof Error) {
-        presentToast({ message: error.message, duration: 1000 });
+        presentToast(toasts.error(error.message));
       }
     }
   };
