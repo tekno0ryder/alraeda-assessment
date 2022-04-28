@@ -1,4 +1,4 @@
-import { IonButton, IonIcon, IonItem } from "@ionic/react";
+import { IonButton, IonIcon, IonItem, IonRouterLink } from "@ionic/react";
 import { trashBinOutline } from "ionicons/icons";
 import { Base64File } from "../util/types";
 
@@ -11,7 +11,9 @@ const FileItem: React.FC<Props> = ({ file, onFileDelete }) => {
   return (
     <>
       <IonItem key={file.name}>
-        <p>{file.name}</p>
+        <a href={file.content} download={file.name}>
+          {file.name}
+        </a>
         <IonButton slot="end" fill="clear" onClick={(e) => onFileDelete(file)}>
           <IonIcon icon={trashBinOutline} />
         </IonButton>
