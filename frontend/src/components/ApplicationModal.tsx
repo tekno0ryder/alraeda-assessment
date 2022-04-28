@@ -11,7 +11,7 @@ import {
   useIonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
-import { Base64File, Career } from "../util/types";
+import { Application, Base64File, Career } from "../util/types";
 import FileUpload from "./FileUpload";
 import { useState } from "react";
 import FileItem from "./FilesItem";
@@ -22,19 +22,27 @@ type Props = {
   career: Career;
   isOpen: boolean;
   onDismiss: () => void;
-  isEditMode?: boolean;
+  application?: Application;
 };
 
 const ApplicationModal: React.FC<Props> = ({
   isOpen,
   career,
-  isEditMode,
+  application,
   onDismiss,
 }) => {
   const [resume, setResume] = useState<Base64File | null>();
+  const [files, setFiles] = useState<Base64File[]>([]);
 
   const [presentToast] = useIonToast();
   const { user } = useAuth();
+
+  useIonViewWillEnter(() => {
+    //If application provided then we're in edit mode
+    if (application) {
+      setResume(application.resume);
+    }
+  }, []);
 
   const onSubmit = async () => {
     let errors = "";
@@ -54,6 +62,7 @@ const ApplicationModal: React.FC<Props> = ({
         userId: user?.id!,
         careerId: career.id,
         resume: resume!,
+        files: files,
       });
       if (response) {
         presentToast({ message: "Applicatoin submitted!", duration: 1000 });
@@ -65,6 +74,25 @@ const ApplicationModal: React.FC<Props> = ({
       }
     }
   };
+
+  const onResumeUpload = (file: Base64File) => setResume(file);
+
+  const onResumeDelete = (_: Base64File) => setResume(null);
+
+  const onFileUpload = (newFile: Base64File) => {
+    const isExists = files.find((file) => file.name === newFile.name);
+    if (!isExists) {
+      setFiles([...files, newFile]);
+    }
+  };
+
+  const onFileDelete = (fileToDelete: Base64File) => {
+    const filesFiltered = files.filter(
+      (file) => file.name !== fileToDelete.name
+    );
+    setFiles(filesFiltered);
+  };
+
   return (
     <IonModal backdropDismiss={false} isOpen={isOpen}>
       <IonHeader>
@@ -76,20 +104,23 @@ const ApplicationModal: React.FC<Props> = ({
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
+        {application}
         <IonNote>
           Please fill the form to apply for position [{career.title} in{" "}
           {career.city}]
         </IonNote>
-        <h4>Resume</h4>
-        {resume && (
-          <FileItem
-            file={resume}
-            onFileDelete={() => {
-              setResume(null);
-            }}
-          />
-        )}
-        <FileUpload onFileChange={setResume} />
+        <div>
+          <h6>Resume</h6>
+          {resume && <FileItem file={resume} onFileDelete={onResumeDelete} />}
+          <FileUpload OnFileUpload={onResumeUpload} />
+        </div>
+        <div>
+          <h6>Other Files</h6>
+          {files.map((file) => (
+            <FileItem key={file.name} file={file} onFileDelete={onFileDelete} />
+          ))}
+          <FileUpload OnFileUpload={onFileUpload} />
+        </div>
       </IonContent>
       <IonFooter className={"ion-margin"}>
         <IonToolbar>

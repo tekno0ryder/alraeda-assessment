@@ -30,10 +30,10 @@ const fetchApplications = async () => {
   return json;
 };
 
-const submitApplication = async (req: Application) => {
+const submitApplication = async (application: Application) => {
   const response = await fetch(`${URL}/applications`, {
     method: "post",
-    body: JSON.stringify(req),
+    body: JSON.stringify(application),
     headers: { "Content-Type": "application/json" },
   });
 

@@ -5,10 +5,10 @@ import styles from "./FileUpload.module.css";
 import { Base64File } from "../util/types";
 import { fileToBase64 } from "../util/base64";
 type Props = {
-  onFileChange: (file: Base64File) => void;
+  OnFileUpload: (file: Base64File) => void;
 };
 
-const FileUpload: React.FC<Props> = ({ onFileChange }) => {
+const FileUpload: React.FC<Props> = ({ OnFileUpload }) => {
   const inputRef = useRef<any>();
 
   const openFileDialog = () => {
@@ -23,7 +23,7 @@ const FileUpload: React.FC<Props> = ({ onFileChange }) => {
         type: file.type,
         content: await fileToBase64(file),
       };
-      onFileChange(base64File);
+      OnFileUpload(base64File);
     }
     // Reset hidden input value so in case we upload the same file again it works
     inputRef.current.value = "";

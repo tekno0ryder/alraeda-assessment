@@ -18,12 +18,14 @@ import { Career, CareersFiltersType } from "../util/types";
 import "./Careers.css";
 import CareersSearch from "../components/CareersSearch";
 import CareerItemContent from "../components/CareerItemContent";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 const Careers: React.FC = () => {
   const [careers, setCareers] = useState<Career[]>();
 
   const router = useIonRouter();
   const [presentToast] = useIonToast();
+  useRequireAuth();
 
   useIonViewWillEnter(async () => {
     search();

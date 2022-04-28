@@ -6,7 +6,6 @@ import {
   IonContent,
   IonHeader,
   IonItemDivider,
-  IonNote,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -19,6 +18,7 @@ import { API } from "../api";
 import ApplicationModal from "../components/ApplicationModal";
 import CareerItemContent from "../components/CareerItemContent";
 import { useAuth } from "../hooks/useAuth";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 import { Career } from "../util/types";
 
 const CareerDetails: React.FC = () => {
@@ -30,6 +30,7 @@ const CareerDetails: React.FC = () => {
 
   const [presentToast] = useIonToast();
   const { user } = useAuth();
+  useRequireAuth();
 
   useIonViewWillEnter(async () => {
     try {
@@ -74,12 +75,14 @@ const CareerDetails: React.FC = () => {
               ))}
             </div>
             <div className="ion-margin-vertical ion-text-center">
-              <IonButton onClick={() => setIsApplicationModalOpen(true)}>
-                {hasApplication ? "Edit my application" : "Apply"}
+              <IonButton
+                disabled={hasApplication}
+                onClick={() => setIsApplicationModalOpen(true)}
+              >
+                {hasApplication ? "Applied" : "Apply"}
               </IonButton>
             </div>
             <ApplicationModal
-              isEditMode={hasApplication}
               career={career}
               isOpen={isApplicationModalOpen}
               onDismiss={() => setIsApplicationModalOpen(false)}
