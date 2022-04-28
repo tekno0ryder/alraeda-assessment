@@ -3,16 +3,18 @@ import { useEffect } from "react";
 import { useHistory, useLocation } from "react-router";
 import { useAuth } from "./useAuth";
 
-export function useRequireAuth(redirectUrl = "/login") {
+type RequireAuthType = { requireAdmin?: boolean };
+
+export function useRequireAuth(options: RequireAuthType = {}) {
   const auth = useAuth();
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
-    if (!auth.user) {
-      history.replace(redirectUrl);
+    if (!auth.user || (options.requireAdmin && !auth.user.isAdmin)) {
+      history.replace("/login");
     }
-  }, [auth, history, location, redirectUrl]);
+  }, [auth, history, location, options]);
 
   // Convert to boolean
   return !!auth.user;

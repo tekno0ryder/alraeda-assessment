@@ -17,6 +17,7 @@ import {
 import { FormEvent, useState } from "react";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
+import { ROUTES } from "../util/constants";
 import styles from "./Register.module.css";
 
 const Register: React.FC = () => {
@@ -89,7 +90,7 @@ const Register: React.FC = () => {
         </form>
         <div className="ion-margin">
           <span>Have an account? </span>
-          <IonRouterLink routerLink="login">Sign in</IonRouterLink>
+          <IonRouterLink routerLink={ROUTES.login}>Sign in</IonRouterLink>
         </div>
       </IonContent>
     </IonPage>

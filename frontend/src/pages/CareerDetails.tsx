@@ -19,6 +19,7 @@ import ApplicationModal from "../components/ApplicationModal";
 import CareerItemContent from "../components/CareerItemContent";
 import { useAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
+import { ROUTES } from "../util/constants";
 import { Career } from "../util/types";
 
 const CareerDetails: React.FC = () => {
@@ -51,7 +52,7 @@ const CareerDetails: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/careers" />
+            <IonBackButton defaultHref={ROUTES.careers} />
           </IonButtons>
           <IonTitle>Career Details</IonTitle>
         </IonToolbar>

@@ -15,6 +15,7 @@ import {
 import { FormEvent, useState } from "react";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
+import { ROUTES } from "../util/constants";
 import styles from "./Login.module.css";
 
 const Login: React.FC = () => {
@@ -32,7 +33,7 @@ const Login: React.FC = () => {
       const user = await API.login(username, password);
       if (user) {
         setUser(user);
-        push("careers");
+        push(user.isAdmin ? ROUTES.applications : ROUTES.careers);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -74,7 +75,7 @@ const Login: React.FC = () => {
         </form>
         <div className="ion-margin">
           <span>Don't have an account? </span>
-          <IonRouterLink routerLink="register">Sign up</IonRouterLink>
+          <IonRouterLink routerLink={ROUTES.regiser}>Sign up</IonRouterLink>
         </div>
       </IonContent>
     </IonPage>

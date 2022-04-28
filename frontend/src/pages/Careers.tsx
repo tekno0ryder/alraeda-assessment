@@ -19,6 +19,7 @@ import "./Careers.css";
 import CareersSearch from "../components/CareersSearch";
 import CareerItemContent from "../components/CareerItemContent";
 import { useRequireAuth } from "../hooks/useRequireAuth";
+import { ROUTES } from "../util/constants";
 
 const Careers: React.FC = () => {
   const [careers, setCareers] = useState<Career[]>();
@@ -47,7 +48,7 @@ const Careers: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="login" />
+            <IonBackButton defaultHref={ROUTES.login} />
           </IonButtons>
           <IonTitle>Careers</IonTitle>
         </IonToolbar>

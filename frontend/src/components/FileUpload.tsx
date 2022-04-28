@@ -4,6 +4,7 @@ import { ChangeEvent, ChangeEventHandler, useRef } from "react";
 import styles from "./FileUpload.module.css";
 import { Base64File } from "../util/types";
 import { fileToBase64 } from "../util/base64";
+
 type Props = {
   OnFileUpload: (file: Base64File) => void;
 };

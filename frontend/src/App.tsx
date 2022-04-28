@@ -25,6 +25,8 @@ import Register from "./pages/Register";
 import { AuthProvider } from "./hooks/useAuth";
 import Careers from "./pages/Careers";
 import CareerDetails from "./pages/CareerDetails";
+import Admin from "./pages/Admin";
+import { ROUTES } from "./util/constants";
 
 setupIonicReact();
 
@@ -33,13 +35,14 @@ const App: React.FC = () => (
     <AuthProvider>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path="/" exact={true}>
-            <Redirect to="/login" />
+          <Route path="/" exact>
+            <Redirect to={ROUTES.login} />
           </Route>
-          <Route path="/login" exact={true} component={Login} />
-          <Route path="/register" exact={true} component={Register} />
-          <Route path="/careers" exact={true} component={Careers} />
-          <Route path="/careers/:id" exact={true} component={CareerDetails} />
+          <Route path={ROUTES.login} exact component={Login} />
+          <Route path={ROUTES.regiser} exact component={Register} />
+          <Route path={ROUTES.careers} exact component={Careers} />
+          <Route path={ROUTES.careerDetails} exact component={CareerDetails} />
+          <Route path={ROUTES.admin} component={Admin} />
         </IonRouterOutlet>
       </IonReactRouter>
     </AuthProvider>
