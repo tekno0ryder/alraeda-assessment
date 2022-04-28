@@ -45,7 +45,7 @@ const Careers: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton />
+            <IonBackButton defaultHref="login" />
           </IonButtons>
           <IonTitle>Careers</IonTitle>
         </IonToolbar>
