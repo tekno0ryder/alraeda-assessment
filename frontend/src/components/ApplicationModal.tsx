@@ -24,7 +24,7 @@ import { SKILL_LIST } from "../util/constants";
 type Props = {
   career: Career;
   isOpen: boolean;
-  onDismiss: () => void;
+  onDismiss: (hasApplication?: boolean) => void;
   application?: Application;
 };
 
@@ -74,7 +74,7 @@ const ApplicationModal: React.FC<Props> = ({
       });
       if (res) {
         presentToast({ message: "Applicatoin submitted!", duration: 1000 });
-        onDismiss();
+        onDismiss(true);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -111,7 +111,7 @@ const ApplicationModal: React.FC<Props> = ({
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
-            <IonButton onClick={onDismiss}>Cancel</IonButton>
+            <IonButton onClick={() => onDismiss()}>Cancel</IonButton>
           </IonButtons>
           <IonTitle>Application</IonTitle>
         </IonToolbar>

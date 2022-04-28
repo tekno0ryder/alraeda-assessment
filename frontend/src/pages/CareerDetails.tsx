@@ -24,7 +24,7 @@ import { Career } from "../util/types";
 const CareerDetails: React.FC = () => {
   const [career, setCareer] = useState<Career>();
   const { id } = useParams<{ id: string }>();
-  const [hasApplication, setHasApplication] = useState();
+  const [hasApplication, setHasApplication] = useState(false);
 
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
 
@@ -85,7 +85,10 @@ const CareerDetails: React.FC = () => {
             <ApplicationModal
               career={career}
               isOpen={isApplicationModalOpen}
-              onDismiss={() => setIsApplicationModalOpen(false)}
+              onDismiss={(hasApplication) => {
+                setIsApplicationModalOpen(false);
+                setHasApplication(hasApplication!!);
+              }}
             />
           </>
         )}
