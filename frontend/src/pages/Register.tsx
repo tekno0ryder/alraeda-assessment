@@ -15,6 +15,7 @@ import {
   useIonToast,
 } from "@ionic/react";
 import { FormEvent, useState } from "react";
+import { useHistory } from "react-router";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
 import { ROUTES } from "../util/constants";
@@ -25,8 +26,9 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
+  const history = useHistory();
   const [present] = useIonToast();
-  const { push } = useIonRouter();
+
   const { setUser } = useAuth();
 
   const onSubmit = async (event: FormEvent) => {
@@ -35,9 +37,7 @@ const Register: React.FC = () => {
       const user = await API.register(username, password, { name });
       if (user) {
         setUser(user);
-        push("careers");
-      } else {
-        present({ message: "Username or password is wrong", duration: 1000 });
+        history.replace(ROUTES.careers);
       }
     } catch (error) {
       if (error instanceof Error) {

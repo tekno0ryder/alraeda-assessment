@@ -36,7 +36,7 @@ const register = async (
     throw Error("Username already exists");
   }
 
-  // #2 Check if user doesn't exists before
+  // #2 Register user
   const body = { username, password, ...userInfo, isAdmin: false };
 
   const regiserResponse = await fetch(`${URL}/users`, {
