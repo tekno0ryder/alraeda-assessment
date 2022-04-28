@@ -17,6 +17,9 @@ import { useState } from "react";
 import FileItem from "./FilesItem";
 import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
+import CreatableSelect from "react-select/creatable";
+import { OnChangeValue } from "react-select";
+import { SKILL_LIST } from "../util/constants";
 
 type Props = {
   career: Career;
@@ -24,6 +27,16 @@ type Props = {
   onDismiss: () => void;
   application?: Application;
 };
+
+type SkillOption = {
+  label: string;
+  value: string;
+};
+
+const skillOptions = SKILL_LIST.map<SkillOption>((skill) => ({
+  label: skill,
+  value: skill,
+}));
 
 const ApplicationModal: React.FC<Props> = ({
   isOpen,
@@ -33,7 +46,7 @@ const ApplicationModal: React.FC<Props> = ({
 }) => {
   const [resume, setResume] = useState<Base64File | null>();
   const [files, setFiles] = useState<Base64File[]>([]);
-
+  const [skills, setSkills] = useState<string[]>([]);
   const [presentToast] = useIonToast();
   const { user } = useAuth();
 
@@ -41,6 +54,8 @@ const ApplicationModal: React.FC<Props> = ({
     //If application provided then we're in edit mode
     if (application) {
       setResume(application.resume);
+      setFiles(application.files);
+      setSkills(application.skills);
     }
   }, []);
 
@@ -50,13 +65,14 @@ const ApplicationModal: React.FC<Props> = ({
         throw Error("Resume is required");
       }
 
-      const response = await API.submitApplication({
+      const res = await API.submitApplication({
         userId: user?.id!,
         careerId: career.id,
-        resume: resume!,
+        resume: resume,
         files: files,
+        skills: skills,
       });
-      if (response) {
+      if (res) {
         presentToast({ message: "Applicatoin submitted!", duration: 1000 });
         onDismiss();
       }
@@ -83,6 +99,11 @@ const ApplicationModal: React.FC<Props> = ({
       (file) => file.name !== fileToDelete.name
     );
     setFiles(filesFiltered);
+  };
+
+  const onSkillChange = (newSkillOptions: OnChangeValue<SkillOption, true>) => {
+    const skills = newSkillOptions.map((option) => option.value);
+    setSkills(skills);
   };
 
   return (
@@ -113,11 +134,20 @@ const ApplicationModal: React.FC<Props> = ({
           ))}
           <FileUpload OnFileUpload={onFileUpload} />
         </div>
+        <div>
+          <h6>Skills</h6>
+          <CreatableSelect
+            isMulti
+            placeholder={"Select or type a new skill"}
+            onChange={onSkillChange}
+            options={skillOptions}
+          ></CreatableSelect>
+        </div>
       </IonContent>
       <IonFooter className={"ion-margin"}>
         <IonToolbar>
           <IonButton type="submit" onClick={onSubmit}>
-            Submit
+            {application ? "Edit" : "Submit"}
           </IonButton>
         </IonToolbar>
       </IonFooter>

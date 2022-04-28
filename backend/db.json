@@ -8,13 +8,19 @@
       "id": 1
     }
   ],
+  "skills": [
+    { "id": 1, "name": "Creative" },
+    { "id": 2, "name": "Brilliant" },
+    { "id": 3, "name": "Storyteller" }
+  ],
+
   "careers": [
     {
       "id": 1,
       "title": "Product Designer",
       "subTitle": "Join our amazing team in Riyadh right now!",
       "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus",
-      "skills": ["Creative", "Brilliant", "Storyteller"],
+      "skills": ["Brilliant", "Storyteller"],
       "city": "Riyadh"
     },
     {

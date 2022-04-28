@@ -31,7 +31,8 @@ export type Application = {
   userId: number;
   careerId: number;
   resume: Base64File;
-  files?: Base64File[];
+  files: Base64File[];
+  skills: string[];
   // Populated relations from backend
   user?: User;
   career?: Career;
