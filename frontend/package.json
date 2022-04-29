@@ -50,7 +50,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --maxWorkers 1 \"--coverage\" ",
+    "test": "react-scripts test --maxWorkers 1 \"--coverage\" \"--watchAll\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
