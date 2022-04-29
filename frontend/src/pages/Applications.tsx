@@ -46,10 +46,6 @@ const Applications: React.FC = () => {
   const onApplicationDelete = async (id: number) => {
     await API.deleteApplication(id);
 
-    // For some reason relations are not populated using PATCH:updateApplication
-    // Will use fetchApplication instead
-    await API.fetchApplication(id);
-
     // Find and delete the application
     const newApplications = applications?.filter(
       (application) => application.id !== id
