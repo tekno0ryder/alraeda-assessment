@@ -25,13 +25,14 @@ import { ApplicationRequest, Career } from "../util/types";
 
 const CareerDetails: React.FC = () => {
   const [career, setCareer] = useState<Career>();
-  const { id } = useParams<{ id: string }>();
   const [hasApplication, setHasApplication] = useState(false);
 
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
 
-  const [presentToast] = useIonToast();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const [presentToast] = useIonToast();
+
   useRequireAuth();
 
   useIonViewWillEnter(async () => {
@@ -82,7 +83,7 @@ const CareerDetails: React.FC = () => {
       <IonContent className="ion-padding">
         {career && (
           <>
-            <div className="ion-text-center">
+            <div data-testid={"CareerItemContent"} className="ion-text-center">
               <CareerItemContent career={career} />
             </div>
             <IonItemDivider />

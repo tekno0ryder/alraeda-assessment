@@ -9,7 +9,7 @@ type Props = {
   OnFileUpload: (file: Base64File) => void;
 };
 
-// This component uses workaround since <IonInput/> doesn't have file type
+// This component uses workaround since <IonInput/> doesn't have "file" type
 // We use hidden input and control it programmatically
 const FileUpload: React.FC<Props> = ({ OnFileUpload }) => {
   const inputRef = useRef<any>();
@@ -38,7 +38,13 @@ const FileUpload: React.FC<Props> = ({ OnFileUpload }) => {
       className={styles.uploadButton}
       onClick={openFileDialog}
     >
-      <input hidden ref={inputRef} type={"file"} onChange={onChange} />
+      <input
+        hidden
+        ref={inputRef}
+        data-testid="fileUpload"
+        type={"file"}
+        onChange={onChange}
+      />
       <IonIcon slot="start" icon={cloudUploadOutline} />
       Upload
     </IonButton>

@@ -45,9 +45,10 @@ type Props = {
 const ApplicationModal: React.FC<Props> = ({
   isOpen,
   career,
-  application,
   onApplicationSubmit,
   onClose,
+  // In case of Edit Mode
+  application,
   onApplicationDelete,
 }) => {
   const [resume, setResume] = useState<Base64File | null>();
@@ -157,7 +158,7 @@ const ApplicationModal: React.FC<Props> = ({
             onChange={onSkillChange}
             defaultValue={mapSkillsToOptions(skills)}
             options={mapSkillsToOptions(SKILL_LIST)}
-          ></CreatableSelect>
+          />
         </div>
       </IonContent>
       <IonFooter className={"ion-margin"}>

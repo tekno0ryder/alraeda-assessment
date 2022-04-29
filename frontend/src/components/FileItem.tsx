@@ -14,7 +14,12 @@ const FileItem: React.FC<Props> = ({ file, onFileDelete }) => {
         <a href={file.content} download={file.name}>
           {file.name}
         </a>
-        <IonButton slot="end" fill="clear" onClick={(e) => onFileDelete(file)}>
+        <IonButton
+          slot="end"
+          fill="clear"
+          data-testid={"remove"}
+          onClick={(e) => onFileDelete(file)}
+        >
           <IonIcon icon={trashBinOutline} />
         </IonButton>
       </IonItem>

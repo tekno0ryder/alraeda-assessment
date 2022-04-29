@@ -57,6 +57,7 @@ const Login: React.FC = () => {
             <IonLabel position="floating">Username</IonLabel>
             <IonInput
               required
+              data-testid={"username"}
               value={username}
               onIonChange={(e) => setUsername(e.detail.value!)}
             />
@@ -65,12 +66,17 @@ const Login: React.FC = () => {
             <IonLabel position="floating">Password</IonLabel>
             <IonInput
               required
+              data-testid={"password"}
               value={password}
               type="password"
               onIonChange={(e) => setPassword(e.detail.value!)}
             />
           </IonItem>
-          <IonButton className="ion-margin" type="submit">
+          <IonButton
+            data-testid={"submit"}
+            className="ion-margin"
+            type="submit"
+          >
             Login
           </IonButton>
         </form>

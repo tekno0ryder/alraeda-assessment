@@ -11,14 +11,13 @@ import {
 import { filter } from "ionicons/icons";
 import { useState } from "react";
 import { CITY_LIST } from "../util/constants";
-import { Career, CareersFiltersType } from "../util/types";
+import { CareersFiltersType } from "../util/types";
 
 type Props = {
-  careers: Career[] | undefined;
   onFiltersChange: (filters: CareersFiltersType) => Promise<void>;
 };
 
-const SearchCareer: React.FC<Props> = ({ onFiltersChange }) => {
+const CareersSearch: React.FC<Props> = ({ onFiltersChange }) => {
   const [titleSearch, setTitleSearch] = useState<string>();
   const [selectedCity, setSelectedCity] = useState<string>();
 
@@ -63,13 +62,18 @@ const SearchCareer: React.FC<Props> = ({ onFiltersChange }) => {
         <IonCol size="11">
           <IonSearchbar
             animated
+            data-testid="searchBar"
             placeholder="Search title..."
             value={titleSearch}
             onIonChange={onTitleSearch}
           />
         </IonCol>
         <IonCol size="1">
-          <IonButton buttonType="text" onClick={showActionSheet}>
+          <IonButton
+            data-testid="filterCity"
+            buttonType="text"
+            onClick={showActionSheet}
+          >
             <IonIcon
               icon={filter}
               style={{ color: selectedCity ? "blue" : "" }}
@@ -81,4 +85,4 @@ const SearchCareer: React.FC<Props> = ({ onFiltersChange }) => {
   );
 };
 
-export default SearchCareer;
+export default CareersSearch;

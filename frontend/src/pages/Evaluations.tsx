@@ -39,7 +39,8 @@ const Evaluations: React.FC = () => {
 
       for (const evaluation of evaluations) {
         const application = evaluation.application;
-        if (application.status === STATUS_LIST.created) {
+        // Update uncompleted apllications only
+        if (application.status !== STATUS_LIST.completed) {
           const newStatus =
             evaluation.score >= EVALUATION_SETTINGS.passScore
               ? STATUS_LIST.accepted

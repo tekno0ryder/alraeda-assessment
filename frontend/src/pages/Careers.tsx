@@ -56,7 +56,7 @@ const Careers: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         {/* Search bar */}
-        <CareersSearch careers={careers} onFiltersChange={search} />
+        <CareersSearch onFiltersChange={search} />
         {/* Careers List */}
         <IonList>
           {careers?.map((career) => (

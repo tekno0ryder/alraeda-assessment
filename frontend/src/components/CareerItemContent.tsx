@@ -16,12 +16,14 @@ const CareerItemContent: React.FC<Props> = ({ career }) => {
   return (
     <div>
       <IonCardHeader>
-        <IonCardTitle>{career.title}</IonCardTitle>
-        <IonCardSubtitle>
+        <IonCardTitle data-testid={"title"}>{career.title}</IonCardTitle>
+        <IonCardSubtitle data-testid={"city"}>
           <IonIcon icon={locationOutline} /> {career.city}
         </IonCardSubtitle>
       </IonCardHeader>
-      <IonCardContent>{career.subTitle}</IonCardContent>
+      <IonCardContent data-testid={"subTitle"}>
+        {career.subTitle}
+      </IonCardContent>
     </div>
   );
 };
