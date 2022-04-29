@@ -60,7 +60,6 @@ const CareerDetails: React.FC = () => {
       const res = await API.submitApplication(applicationRequest);
       if (res) {
         presentToast(toasts.success("Application submitted!"));
-        setIsApplicationModalOpen(false);
         setHasApplication(true);
       }
     } catch (error) {
@@ -110,7 +109,7 @@ const CareerDetails: React.FC = () => {
               career={career}
               isOpen={isApplicationModalOpen}
               onClose={() => setIsApplicationModalOpen(false)}
-              onSubmit={onApplicationSubmit}
+              onApplicationSubmit={onApplicationSubmit}
             />
           </>
         )}

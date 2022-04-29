@@ -17,11 +17,13 @@ import ApplicationModal from "./ApplicationModal";
 type Props = {
   application: Application;
   onApplicationChange: (id: number, fields: object) => Promise<void>;
+  onApplicationDelete: (id: number) => Promise<void>;
 };
 
 const ApplicationItem: React.FC<Props> = ({
   application,
   onApplicationChange,
+  onApplicationDelete,
 }) => {
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
   const [presentActionSheet, dismissActionSheet] = useIonActionSheet();
@@ -84,10 +86,10 @@ const ApplicationItem: React.FC<Props> = ({
         application={application}
         isOpen={isApplicationModalOpen}
         onClose={() => setIsApplicationModalOpen(false)}
-        onSubmit={async (applicationRequest: ApplicationRequest) => {
+        onApplicationSubmit={async (applicationRequest: ApplicationRequest) => {
           await onApplicationChange(application.id, applicationRequest);
-          setIsApplicationModalOpen(false);
         }}
+        onApplicationDelete={onApplicationDelete}
       />
     </IonItem>
   );

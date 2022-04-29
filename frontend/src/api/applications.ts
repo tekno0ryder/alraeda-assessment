@@ -76,6 +76,16 @@ const updateApplication = async (
   return json;
 };
 
+const deleteApplication = async (id: number): Promise<Application> => {
+  const response = await fetch(`${URL}/applications/${id}`, {
+    method: "DELETE",
+  });
+
+  const json = await response.json();
+
+  return json;
+};
+
 const evaluateResumes = async (): Promise<Evaluation[]> => {
   const applications = await fetchApplications();
 
@@ -98,4 +108,5 @@ export default {
   fetchApplications,
   updateApplication,
   evaluateResumes,
+  deleteApplication,
 };

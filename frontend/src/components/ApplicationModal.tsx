@@ -33,17 +33,22 @@ type SkillOption = {
 type Props = {
   isOpen: boolean;
   career: Career;
-  onSubmit: (ApplicationRequest: ApplicationRequest) => Promise<void>;
+  onApplicationSubmit: (
+    ApplicationRequest: ApplicationRequest
+  ) => Promise<void>;
   onClose: () => void;
-  application?: Application; // In case of Edit Mode
+  // In case of Edit Mode
+  application?: Application;
+  onApplicationDelete?: (id: number) => Promise<void>;
 };
 
 const ApplicationModal: React.FC<Props> = ({
   isOpen,
   career,
   application,
-  onSubmit,
+  onApplicationSubmit,
   onClose,
+  onApplicationDelete,
 }) => {
   const [resume, setResume] = useState<Base64File | null>();
   const [files, setFiles] = useState<Base64File[]>([]);
@@ -62,7 +67,7 @@ const ApplicationModal: React.FC<Props> = ({
     }
   }, [application]);
 
-  const onApplicationSubmit = async () => {
+  const onSubmit = async () => {
     if (!resume) {
       return presentToast(toasts.error("Resume is required"));
     }
@@ -75,7 +80,15 @@ const ApplicationModal: React.FC<Props> = ({
       skills: skills,
     };
 
-    onSubmit(applicationRequest);
+    onApplicationSubmit(applicationRequest);
+    onClose();
+  };
+
+  const onDelete = async () => {
+    if (application && onApplicationDelete) {
+      onApplicationDelete(application.id);
+      onClose();
+    }
   };
 
   const onResumeUpload = (file: Base64File) => setResume(file);
@@ -149,9 +162,18 @@ const ApplicationModal: React.FC<Props> = ({
       </IonContent>
       <IonFooter className={"ion-margin"}>
         <IonToolbar>
-          <IonButton type="submit" onClick={onApplicationSubmit}>
+          <IonButton className="ion-margin-horizontal" onClick={onSubmit}>
             {application ? "Edit" : "Submit"}
           </IonButton>
+          {isEditMode && onDelete && (
+            <IonButton
+              className="ion-margin-horizontal"
+              color={"danger"}
+              onClick={onDelete}
+            >
+              Delete
+            </IonButton>
+          )}
         </IonToolbar>
       </IonFooter>
     </IonModal>

@@ -31,16 +31,31 @@ const Applications: React.FC = () => {
 
     // For some reason relations are not populated using PATCH:updateApplication
     // Will use fetchApplication instead
-    const newApplication = await API.fetchApplication(id);
+    const changedApplication = await API.fetchApplication(id);
 
     // Find and replace modified application
-    if (newApplication && applications) {
-      const newApplications = applications?.map((application) =>
-        application.id === newApplication.id ? newApplication : application
-      );
-      setApplications(newApplications);
-      presentToast(toasts.success(`Application #${id} has been updated!`));
-    }
+    const newApplications = applications?.map((application) =>
+      application.id === changedApplication.id
+        ? changedApplication
+        : application
+    );
+    setApplications(newApplications);
+    presentToast(toasts.success(`Application #${id} has been updated!`));
+  };
+
+  const onApplicationDelete = async (id: number) => {
+    await API.deleteApplication(id);
+
+    // For some reason relations are not populated using PATCH:updateApplication
+    // Will use fetchApplication instead
+    await API.fetchApplication(id);
+
+    // Find and delete the application
+    const newApplications = applications?.filter(
+      (application) => application.id !== id
+    );
+    setApplications(newApplications);
+    presentToast(toasts.success(`Application #${id} has been deleted!`));
   };
 
   return (
@@ -51,6 +66,7 @@ const Applications: React.FC = () => {
             key={application.id}
             application={application}
             onApplicationChange={onApplicationChange}
+            onApplicationDelete={onApplicationDelete}
           />
         ))}
       </IonContent>
