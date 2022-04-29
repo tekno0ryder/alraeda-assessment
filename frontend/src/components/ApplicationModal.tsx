@@ -9,17 +9,20 @@ import {
   IonTitle,
   IonToolbar,
   useIonToast,
-  useIonViewWillEnter,
 } from "@ionic/react";
-import { Application, Base64File, Career } from "../util/types";
+import {
+  Application,
+  ApplicationRequest,
+  Base64File,
+  Career,
+} from "../util/types";
 import FileUpload from "./FileUpload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FileItem from "./FileItem";
-import { API } from "../api";
 import { useAuth } from "../hooks/useAuth";
 import CreatableSelect from "react-select/creatable";
 import { OnChangeValue } from "react-select";
-import { APPLICATION_STATUS_LIST, SKILL_LIST } from "../util/constants";
+import { SKILL_LIST } from "../util/constants";
 import toasts from "../util/toasts";
 
 type SkillOption = {
@@ -27,23 +30,20 @@ type SkillOption = {
   value: string;
 };
 
-const skillOptions = SKILL_LIST.map<SkillOption>((skill) => ({
-  label: skill,
-  value: skill,
-}));
-
 type Props = {
-  career: Career;
   isOpen: boolean;
-  onDismiss: (hasApplication?: boolean) => void;
-  application?: Application;
+  career: Career;
+  onSubmit: (ApplicationRequest: ApplicationRequest) => Promise<void>;
+  onClose: () => void;
+  application?: Application; // In case of Edit Mode
 };
 
 const ApplicationModal: React.FC<Props> = ({
   isOpen,
   career,
   application,
-  onDismiss,
+  onSubmit,
+  onClose,
 }) => {
   const [resume, setResume] = useState<Base64File | null>();
   const [files, setFiles] = useState<Base64File[]>([]);
@@ -51,38 +51,31 @@ const ApplicationModal: React.FC<Props> = ({
   const [presentToast] = useIonToast();
   const { user } = useAuth();
 
-  useIonViewWillEnter(() => {
+  const isEditMode = !!application;
+
+  useEffect(() => {
     //If application provided then we're in edit mode
     if (application) {
       setResume(application.resume);
       setFiles(application.files);
       setSkills(application.skills);
     }
-  }, []);
+  }, [application]);
 
-  const onSubmit = async () => {
-    try {
-      if (!resume) {
-        throw Error("Resume is required");
-      }
-
-      const res = await API.submitApplication({
-        userId: user?.id!,
-        careerId: career.id,
-        resume: resume,
-        files: files,
-        skills: skills,
-        status: APPLICATION_STATUS_LIST.created,
-      });
-      if (res) {
-        presentToast(toasts.success("Applicatoin submitted!"));
-        onDismiss(true);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        presentToast(toasts.error(error.message));
-      }
+  const onApplicationSubmit = async () => {
+    if (!resume) {
+      return presentToast(toasts.error("Resume is required"));
     }
+
+    const applicationRequest: ApplicationRequest = {
+      userId: isEditMode ? application.userId : user?.id!,
+      careerId: career.id,
+      resume: resume,
+      files: files,
+      skills: skills,
+    };
+
+    onSubmit(applicationRequest);
   };
 
   const onResumeUpload = (file: Base64File) => setResume(file);
@@ -108,21 +101,28 @@ const ApplicationModal: React.FC<Props> = ({
     setSkills(skills);
   };
 
+  const mapSkillsToOptions = (skills: string[]) => {
+    return skills.map<SkillOption>((skill) => ({
+      label: skill,
+      value: skill,
+    }));
+  };
+
   return (
     <IonModal backdropDismiss={false} isOpen={isOpen}>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
-            <IonButton onClick={() => onDismiss()}>Cancel</IonButton>
+            <IonButton onClick={onClose}>Cancel</IonButton>
           </IonButtons>
-          <IonTitle>Application</IonTitle>
+          <IonTitle>{application && "Edit"} Application</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {application}
         <IonNote>
-          Please fill the form to apply for position [{career.title} in{" "}
-          {career.city}]
+          {application
+            ? `Editing application #${application.id} for ${application.user.name} for position ${career.title}`
+            : `Please fill the form to apply for position [${career.title} in ${career.city}]`}
         </IonNote>
         <div>
           <h6>Resume</h6>
@@ -142,13 +142,14 @@ const ApplicationModal: React.FC<Props> = ({
             isMulti
             placeholder={"Select or type a new skill"}
             onChange={onSkillChange}
-            options={skillOptions}
+            defaultValue={skills && mapSkillsToOptions(skills)}
+            options={mapSkillsToOptions(SKILL_LIST)}
           ></CreatableSelect>
         </div>
       </IonContent>
       <IonFooter className={"ion-margin"}>
         <IonToolbar>
-          <IonButton type="submit" onClick={onSubmit}>
+          <IonButton type="submit" onClick={onApplicationSubmit}>
             {application ? "Edit" : "Submit"}
           </IonButton>
         </IonToolbar>

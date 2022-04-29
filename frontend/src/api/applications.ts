@@ -1,3 +1,4 @@
+import { APPLICATION_STATUS_LIST } from "../util/constants";
 import { Application, ApplicationRequest } from "../util/types";
 
 const URL = process.env.REACT_APP_API_URL;
@@ -46,9 +47,12 @@ const searchApplication = async ({
 };
 
 const submitApplication = async (application: ApplicationRequest) => {
+  // Use created status as default
+  const body = { ...application, status: APPLICATION_STATUS_LIST.created };
+
   const response = await fetch(`${URL}/applications`, {
     method: "post",
-    body: JSON.stringify(application),
+    body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" },
   });
 

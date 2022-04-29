@@ -9,15 +9,22 @@ import {
   IonLabel,
   useIonActionSheet,
 } from "@ionic/react";
+import { useState } from "react";
 import { APPLICATION_STATUS_LIST } from "../util/constants";
-import { Application } from "../util/types";
+import { Application, ApplicationRequest } from "../util/types";
+import ApplicationModal from "./ApplicationModal";
 
 type Props = {
   application: Application;
-  onChangeStatus: (id: number, newStatus: string) => Promise<void>;
+  onApplicationChange: (id: number, fields: object) => Promise<void>;
 };
-const ApplicationItem: React.FC<Props> = ({ application, onChangeStatus }) => {
-  const [presentActionSheet, dismiss] = useIonActionSheet();
+
+const ApplicationItem: React.FC<Props> = ({
+  application,
+  onApplicationChange,
+}) => {
+  const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
+  const [presentActionSheet, dismissActionSheet] = useIonActionSheet();
 
   const openChangeStatus = () => {
     const options: ActionSheetButton[] = [{ text: "Cancel", role: "cancel" }];
@@ -27,8 +34,8 @@ const ApplicationItem: React.FC<Props> = ({ application, onChangeStatus }) => {
         text: statusValue,
         role: application.status === statusValue ? "selected" : undefined,
         handler: () => {
-          dismiss();
-          onChangeStatus(application.id, statusValue);
+          dismissActionSheet();
+          onApplicationChange(application.id, { status: statusValue });
         },
       });
     });
@@ -48,7 +55,7 @@ const ApplicationItem: React.FC<Props> = ({ application, onChangeStatus }) => {
     <IonItem>
       <div style={{ width: "100%" }}>
         <IonCardHeader>
-          <IonCardTitle>Application {application.id}</IonCardTitle>
+          <IonCardTitle>Application #{application.id}</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
           {renderLabelValue("Name: ", application.user.name)}
@@ -56,14 +63,32 @@ const ApplicationItem: React.FC<Props> = ({ application, onChangeStatus }) => {
           {renderLabelValue("Status: ", application.status)}
         </IonCardContent>
         <IonButtons className="ion-justify-content-end">
-          <IonButton fill={"clear"} onClick={openChangeStatus}>
+          <IonButton
+            fill={"clear"}
+            color={"primary"}
+            onClick={openChangeStatus}
+          >
             <IonLabel>Change Status</IonLabel>
           </IonButton>
-          <IonButton fill={"clear"} onClick={() => {}}>
+          <IonButton
+            fill={"clear"}
+            color={"primary"}
+            onClick={() => setIsApplicationModalOpen(true)}
+          >
             <IonLabel>View Application</IonLabel>
           </IonButton>
         </IonButtons>
       </div>
+      <ApplicationModal
+        career={application.career}
+        application={application}
+        isOpen={isApplicationModalOpen}
+        onClose={() => setIsApplicationModalOpen(false)}
+        onSubmit={async (applicationRequest: ApplicationRequest) => {
+          await onApplicationChange(application.id, applicationRequest);
+          setIsApplicationModalOpen(false);
+        }}
+      />
     </IonItem>
   );
 };

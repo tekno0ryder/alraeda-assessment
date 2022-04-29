@@ -1,14 +1,6 @@
 import {
-  IonButton,
-  IonButtons,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
   IonContent,
-  IonItem,
-  IonLabel,
   IonPage,
-  useIonActionSheet,
   useIonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -34,25 +26,21 @@ const Applications: React.FC = () => {
     }
   }, []);
 
-  const onChangeStatus = async (id: number, newStatus: string) => {
+  const onApplicationChange = async (id: number, fields: object) => {
+    await API.updateApplication(id, fields);
+
     // For some reason relations are not populated using PATCH:updateApplication
     // Will use fetchApplication instead
-    const _ = await API.updateApplication(id, {
-      status: newStatus,
-    });
-
     const newApplication = await API.fetchApplication(id);
 
+    // Find and replace modified application
     if (newApplication && applications) {
-      // Find and replace modified application
       const newApplications = applications?.map((application) =>
         application.id === newApplication.id ? newApplication : application
       );
       setApplications(newApplications);
 
-      presentToast(
-        toasts.success(`Application #${id} changed to ${newStatus}`)
-      );
+      presentToast(toasts.success(`Application #${id} has been updated!`));
     }
   };
 
@@ -63,7 +51,7 @@ const Applications: React.FC = () => {
           <ApplicationItem
             key={application.id}
             application={application}
-            onChangeStatus={onChangeStatus}
+            onApplicationChange={onApplicationChange}
           />
         ))}
       </IonContent>

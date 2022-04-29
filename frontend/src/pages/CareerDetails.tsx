@@ -21,7 +21,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { ROUTES } from "../util/constants";
 import toasts from "../util/toasts";
-import { Career } from "../util/types";
+import { Application, ApplicationRequest, Career } from "../util/types";
 
 const CareerDetails: React.FC = () => {
   const [career, setCareer] = useState<Career>();
@@ -52,6 +52,23 @@ const CareerDetails: React.FC = () => {
       }
     }
   }, [user, id]);
+
+  const onApplicationSubmit = async (
+    applicationRequest: ApplicationRequest
+  ) => {
+    try {
+      const res = await API.submitApplication(applicationRequest);
+      if (res) {
+        presentToast(toasts.success("Application submitted!"));
+        setIsApplicationModalOpen(false);
+        setHasApplication(true);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        presentToast(toasts.error(error.message));
+      }
+    }
+  };
 
   return (
     <IonPage>
@@ -92,10 +109,8 @@ const CareerDetails: React.FC = () => {
             <ApplicationModal
               career={career}
               isOpen={isApplicationModalOpen}
-              onDismiss={(application) => {
-                setIsApplicationModalOpen(false);
-                setHasApplication(application!!);
-              }}
+              onClose={() => setIsApplicationModalOpen(false)}
+              onSubmit={onApplicationSubmit}
             />
           </>
         )}

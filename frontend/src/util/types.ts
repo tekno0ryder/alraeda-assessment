@@ -32,7 +32,7 @@ export type ApplicationRequest = {
   resume: Base64File;
   files: Base64File[];
   skills: string[];
-  status: string;
+  status?: string;
 };
 
 export type Application = ApplicationRequest & {

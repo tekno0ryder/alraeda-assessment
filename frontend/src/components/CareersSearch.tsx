@@ -18,7 +18,7 @@ type Props = {
   onFiltersChange: (filters: CareersFiltersType) => Promise<void>;
 };
 
-const SearchCareer: React.FC<Props> = ({ careers, onFiltersChange }) => {
+const SearchCareer: React.FC<Props> = ({ onFiltersChange }) => {
   const [titleSearch, setTitleSearch] = useState<string>();
   const [selectedCity, setSelectedCity] = useState<string>();
 
