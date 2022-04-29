@@ -1,6 +1,6 @@
-import { IonButton, IonContent, IonIcon, IonItem } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
 import { cloudUploadOutline } from "ionicons/icons";
-import { ChangeEvent, ChangeEventHandler, useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import styles from "./FileUpload.module.css";
 import { Base64File } from "../util/types";
 import { fileToBase64 } from "../util/base64";
@@ -9,6 +9,8 @@ type Props = {
   OnFileUpload: (file: Base64File) => void;
 };
 
+// This component uses workaround since <IonInput/> doesn't have file type
+// We use hidden input and control it programmatically
 const FileUpload: React.FC<Props> = ({ OnFileUpload }) => {
   const inputRef = useRef<any>();
 

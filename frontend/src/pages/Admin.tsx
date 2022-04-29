@@ -44,7 +44,7 @@ const Admin: React.FC = () => {
               value={ROUTES.evaluations}
               onClick={() => history.replace(ROUTES.evaluations)}
             >
-              Evaluation
+              Evaluations
             </IonSegmentButton>
           </IonSegment>
         </IonToolbar>

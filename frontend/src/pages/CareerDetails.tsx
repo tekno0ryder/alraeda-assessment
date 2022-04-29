@@ -21,7 +21,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { ROUTES } from "../util/constants";
 import toasts from "../util/toasts";
-import { Application, ApplicationRequest, Career } from "../util/types";
+import { ApplicationRequest, Career } from "../util/types";
 
 const CareerDetails: React.FC = () => {
   const [career, setCareer] = useState<Career>();

@@ -4,10 +4,6 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonIcon,
-  IonItem,
-  IonList,
-  IonNote,
-  useIonRouter,
 } from "@ionic/react";
 import { locationOutline } from "ionicons/icons";
 import { Career } from "../util/types";

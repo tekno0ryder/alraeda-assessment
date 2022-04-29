@@ -142,7 +142,7 @@ const ApplicationModal: React.FC<Props> = ({
             isMulti
             placeholder={"Select or type a new skill"}
             onChange={onSkillChange}
-            defaultValue={skills && mapSkillsToOptions(skills)}
+            defaultValue={mapSkillsToOptions(skills)}
             options={mapSkillsToOptions(SKILL_LIST)}
           ></CreatableSelect>
         </div>

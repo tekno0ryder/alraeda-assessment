@@ -11,7 +11,6 @@ import {
   IonRouterLink,
   IonTitle,
   IonToolbar,
-  useIonRouter,
   useIonToast,
 } from "@ionic/react";
 import { FormEvent, useState } from "react";

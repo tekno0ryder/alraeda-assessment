@@ -39,7 +39,6 @@ const Applications: React.FC = () => {
         application.id === newApplication.id ? newApplication : application
       );
       setApplications(newApplications);
-
       presentToast(toasts.success(`Application #${id} has been updated!`));
     }
   };
