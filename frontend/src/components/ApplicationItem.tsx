@@ -10,7 +10,7 @@ import {
   useIonActionSheet,
 } from "@ionic/react";
 import { useState } from "react";
-import { APPLICATION_STATUS_LIST } from "../util/constants";
+import { STATUS_LIST } from "../util/constants";
 import { Application, ApplicationRequest } from "../util/types";
 import ApplicationModal from "./ApplicationModal";
 
@@ -29,7 +29,7 @@ const ApplicationItem: React.FC<Props> = ({
   const openChangeStatus = () => {
     const options: ActionSheetButton[] = [{ text: "Cancel", role: "cancel" }];
 
-    Object.values(APPLICATION_STATUS_LIST).forEach((statusValue) => {
+    Object.values(STATUS_LIST).forEach((statusValue) => {
       options.push({
         text: statusValue,
         role: application.status === statusValue ? "selected" : undefined,

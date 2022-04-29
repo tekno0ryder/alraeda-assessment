@@ -42,3 +42,9 @@ export type Application = ApplicationRequest & {
   user: User;
   career: Career;
 };
+
+export type Evaluation = {
+  application: Application;
+  linkedIn: string;
+  score: number;
+};

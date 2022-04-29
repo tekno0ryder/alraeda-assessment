@@ -1,15 +1,18 @@
-// TODO: Consider moving to backend
+// TODO: Consider moving constants to backend
 export const SKILL_LIST = ["Creative", "Brilliant", "Storyteller"];
 
-// TODO: Consider moving to backend
 export const CITY_LIST = ["Dammam", "Riyadh"];
 
-// TODO: Consider moving to backend
-export const APPLICATION_STATUS_LIST = {
+export const STATUS_LIST = {
   created: "Created",
   completed: "Completed",
   accepted: "Accepted",
   rejected: "Rejected",
+};
+
+export const EVALUATION_SETTINGS = {
+  passScore: 50,
+  maxScore: 100,
 };
 
 export const ROUTES = {

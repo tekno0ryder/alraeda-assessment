@@ -1,5 +1,5 @@
-import { APPLICATION_STATUS_LIST } from "../util/constants";
-import { Application, ApplicationRequest } from "../util/types";
+import { STATUS_LIST, EVALUATION_SETTINGS } from "../util/constants";
+import { Application, ApplicationRequest, Evaluation } from "../util/types";
 
 const URL = process.env.REACT_APP_API_URL;
 
@@ -48,7 +48,7 @@ const searchApplication = async ({
 
 const submitApplication = async (application: ApplicationRequest) => {
   // Use created status as default
-  const body = { ...application, status: APPLICATION_STATUS_LIST.created };
+  const body = { ...application, status: STATUS_LIST.created };
 
   const response = await fetch(`${URL}/applications`, {
     method: "post",
@@ -76,10 +76,26 @@ const updateApplication = async (
   return json;
 };
 
+const evaluateResumes = async (): Promise<Evaluation[]> => {
+  const applications = await fetchApplications();
+
+  const evaluations = applications.map<Evaluation>((application) => ({
+    application: application,
+    linkedIn: "https://www.linkedin.com/in/ahmed-alsinan/",
+    score: Math.floor(Math.random() * EVALUATION_SETTINGS.maxScore) + 1,
+  }));
+
+  // Descending order
+  const evaluationsSorted = evaluations.sort((a, b) => b.score - a.score);
+
+  return evaluationsSorted;
+};
+
 export default {
   submitApplication,
   searchApplication,
   fetchApplication,
   fetchApplications,
   updateApplication,
+  evaluateResumes,
 };
